@@ -8,21 +8,34 @@ public class snakeAndLadder{
 		int startPoint = 0;
 
 		int player1 = startPoint;
-		int diceCount = 0;
+		int player2 = startPoint;
 
+		int player1Count = 0;
+		int player2Count = 0;
+
+		int previousPos1 = 0;
+		int previousPos2 = 0;
 		//using while loop for reaching the winning position 100
-		while(player1 <= 100){
+		while((player1 <= 100)&&(player2 <= 100)){
+			//rolling the die for player 1
+			Random roll1 = new Random();
+			int dice1 = roll1.nextInt(6) + 1;
+			player1Count++; //incermenting the player1's dice count
 
-			//rolling the die to get a number b/w 1 and 6
-			Random roll = new Random();
-			int dice = roll.nextInt(6) + 1;
-			diceCount++; //incermenting the dice count
+			//rolling the die for player2
+			Random roll2 = new Random();
+			int dice2 = roll2.nextInt(6) + 1;
+			player2Count++; //incermenting the player2's dice count
 
-			//generating options i.e., 0-noplay 1-ladder 2-snake
+			//generating options for player1
 			Random options = new Random();
 			int opt = options.nextInt(3);
 
-			int previousPosition = player1;  //initiallizing previous position
+			//generating options for player2
+			Random options2 = new Random();
+			int opt2 = options2.nextInt(3);
+
+			previousPos1 = player1;  //initiallizing previous position
 
 			//checking the options for noPlay or ladder or snake
 			switch(opt){
@@ -30,31 +43,80 @@ public class snakeAndLadder{
 						player1 = player1;
 						break;
 				case 1: //ladder
+						player1 = player1 + dice1;
+						Random rollAgain = new Random();
+						int dice = rollAgain.nextInt(6)+1;
 						player1 = player1 + dice;
+						player1Count++;
 						break;
 				case 2: //snake
-						player1 = player1 - dice;
+						player1 = player1 - dice1;
 						break;
 				default:
 						System.out.println("invaild");
 						break;
 			}
-			//to win exactly by 100 so it has to roll again
+			previousPos2 = player2;  //initiallizing previous position
+
+			//checking the options for noPlay or ladder or snake
+          	switch(opt2){
+				case 0: //no play
+                	player2 = player2;
+						break;
+        		case 1: //ladder
+                 	player2 = player2 + dice2;
+						Random rollAgain = new Random();
+                 	int dice = rollAgain.nextInt(6)+1;
+                 	player2 = player2 + dice;
+						player2Count++;
+                  break;
+        		case 2: //snake
+                  player2 = player2 - dice2;
+                  break;
+           	default:
+                	System.out.println("invaild");
+        		}
+
 			if(player1 > 100){
-				player1 = previousPosition;
+				player1 = previousPos1;
 			}
 
-			//if position goes to negative then player is restarting the game
-			if(player1 < 0){
+			else if(player1 < 0){
 				player1 = startPoint;
 			}
 
-			if(player1 == 100){
+			else if(player1 == 100){
 				break;
 			}
-			System.out.println("You are in " +player1 +" position");
+
+			//printing position of player1
+//			System.out.println("Player1 is in " + player1 +" position");
+
+        	if(player2 > 100){
+            	player2 = previousPos2;
+         	}
+
+        	if(player2 < 0){
+            	player2 = startPoint;
+         	}
+
+         	if(player2 == 100){
+        		break;
+         	}
+
+			//printing position of player2
+//			System.out.println("Player2 is in " +player2 +" position");
+
 		}
-		System.out.println("You have rolled the dice for " + diceCount + " times");
-		System.out.println("Hurrah! You have reached 100." );
+		//System.out.println("Player1 is in " + player1 +" position");
+		//System.out.println("Player2 is in " + player2 +" position");
+
+		//System.out.println("Player1 rolled the dice for " + player1Count + " times");
+		//System.out.println("Player2 rolled the dice for " + player2Count + " times");
+		if(player1 == 100){
+			System.out.println("Player 1 wins." );
+		}else if(player2 == 100){
+			System.out.println("Player 2 wins." );
+		}
 	}
 }
