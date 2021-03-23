@@ -17,6 +17,7 @@ public class snakeAndLadder{
 			Random options = new Random();
 			int opt = options.nextInt(3);
 
+			int previousPosition = player1;
 			//checking the options for noPlay or ladder or snake
 			switch(opt){
 				case 0:
@@ -32,10 +33,16 @@ public class snakeAndLadder{
 						System.out.println("invaild");
 						break;
 			}
+			if(player1 > 100){
+				player1 = previousPosition;
+			}
 			if(player1 < 0){
 				player1 = startPoint;
 			}
+			if(player1 == 100){
+				break;
+			}
 		}
-		System.out.println("Hurrah! You have reached 100.");
+		System.out.println("Hurrah! You have reached 100." );
 	}
 }
